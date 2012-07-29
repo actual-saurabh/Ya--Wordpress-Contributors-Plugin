@@ -1,0 +1,28 @@
+#ya-wp-contributors-div .contributor{
+    margin:0;
+    float:left;
+    width:50%;
+}
+#ya-wp-contributors-div input[type="checkbox"]{
+    float:left;
+    margin:5px;
+}
+#ya-wp-contributors-div .cont-profile img{
+    float:left;
+    margin:0;
+    margin-right:5px;
+}
+#ya-wp-contributors-div .cont-profile{
+    float:left;
+}
+#ya-wp-contributors-div .cont-profile strong,#ya-wp-contributors-div .cont-profile em{
+    float:none;
+    display:block;
+    padding-left:30px;
+}
+#ya-wp-contributors-div .cont-profile strong.login{
+    font-size:0.9em;
+}
+#ya-wp-contributors-div .cont-profile em{
+    font-size:0.9em;
+}
