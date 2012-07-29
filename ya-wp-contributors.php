@@ -150,6 +150,9 @@ class ya_wp_contributors{
         else 
             $contributors = $this->get_contributors($post_id,true);
         
+        if (empty($contributors)){
+            $contributors = array( $current_user->ID );
+        }
         $users = get_users();
         
         $count = 0;
