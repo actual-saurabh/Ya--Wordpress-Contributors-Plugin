@@ -127,7 +127,7 @@ class ya_wp_contributors{
         }
                 
         // Add contributors to post meta
-        update_post_meta($post_id, 'ya-contributors', $contributors, true);
+        update_post_meta($post_id, 'ya-contributors', $contributors);
         
         //Vice versa step to add an array of post ids to user meta: contributions and another: contribution_count (?)
     }
