@@ -96,18 +96,24 @@ class ya_wp_contributors{
     
     // Function to get a list of Contributor Ids or full user objects
     function get_contributors($post_id=false, $asid=false){
+        global $current_user,$post;
         $post_id = (int) $post_id;
         if(!$post_id){
-            global $post;
             $post_id=$post->ID;
         }
-            $contributormeta    = get_post_meta($post_id, 'ya-contributors',true);
-            
-        if(!$asid){ //We want full user object
-            $uargs              = array('include'=>$contributormeta);
-            $contributors       = get_users($uargs);  
-        }else{      //We only want Ids
-            $contributors       = $contributormeta;
+        
+        // Initialise as empty array
+        $contributors = array();
+        $contributormeta    = get_post_meta($post_id, 'ya-contributors',true);
+        
+        // If there are contributors set for this post  
+        if(is_array($contributormeta)&&!empty($contributormeta)){    
+            if(!$asid){ //We want full user object
+                $uargs              = array('include'=>$contributormeta);
+                $contributors       = get_users($uargs);  
+            }else{      //We only want Ids
+                $contributors       = $contributormeta;
+            }
         }   
         
         return $contributors;
@@ -194,17 +200,20 @@ class ya_wp_contributors{
         
         $contributors   = $this->get_contributors($post_id);
         
-        $contributorbox = '<div class="contributors"><h3>Contributors</h3><ul>';
-        
-        foreach($contributors as $contributor){
-            $contributorbox .=  '<li class="description"><a href="'.get_author_posts_url( $contributor->ID, $contributor->user_nicename ).'
-                                    " title="'.esc_attr( $contributor->display_name ).'">'
-                                    .get_avatar( $contributor->user_email, 25 ).'
-                                    <span class="name">'.esc_attr( $contributor->display_name ).'</span>
-                                </a></li>';
+        // If there are contributors, else just leave stuff, as it is
+        if(!empty($contributors)){        
+            $contributorbox = '<div class="contributors"><h3>Contributors</h3><ul>';
+            
+            foreach($contributors as $contributor){
+                $contributorbox .=  '<li class="description"><a href="'.get_author_posts_url( $contributor->ID, $contributor->user_nicename ).'
+                                        " title="'.esc_attr( $contributor->display_name ).'">'
+                                        .get_avatar( $contributor->user_email, 25 ).'
+                                        <span class="name">'.esc_attr( $contributor->display_name ).'</span>
+                                    </a></li>';
+            }
+            
+            $contributorbox .= '</ul></div>';
         }
-        
-        $contributorbox .= '</ul></div>';
         
         $content = $content.$contributorbox; // append contributor box to content
         
